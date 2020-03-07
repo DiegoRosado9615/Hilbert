@@ -26,6 +26,34 @@ public void rellenaMatriz(){
 
 }//rellenaMatriz
 
+
+/**
+Metodo que recibe una matriz de letra  y la transforma en una matriz de enteros
+*@param MatrizLetra Matriz de letras
+*@return Matriz
+*/
+
+public Matriz transformacionNumerica(MatrizLetra mensaje){
+  String abecedario="abcdefghijklmnñopqrstuvwxyz";
+  char [][] recipiente= mensaje.getMatrizLetra();
+  int tam=recipiente.length;
+  Matriz transformada = new Matriz(tam);
+  int [][] recipienteTran= transformada.getMatriz();
+  char letra=' ';
+  int posicion=0;
+  for (int i=0;i<recipiente.length ;i++ ) {
+    for (int j=0;j<recipiente[i].length ; j++) {
+      letra=recipiente[i][j];
+      posicion=abecedario.lastIndexOf(letra);
+      recipienteTran[i][j]=posicion;
+    }
+  }
+  transformada.setMatriz(recipienteTran);
+  return transformada;
+}
+
+
+
 /**
 Metodo que imprime las matrizes
 */
@@ -45,6 +73,7 @@ se va multiplicar
 @param Entero y
 @return Matriz
 */
+
 public void productoEscalar(int x){
   int [][] matriz=this.getMatriz();
   int producto=0;
@@ -54,11 +83,12 @@ public void productoEscalar(int x){
       matriz[i][j]=producto;
     }
   }
+
 }
 
 /**
 Metodo que nos permite saca el determinante de una matrizes
-**/
+
 public static double determinante(double[][] matriz)
 {
     double det=0;
@@ -90,7 +120,7 @@ public static double determinante(double[][] matriz)
     }
     return  det;
   }
-
+*/
 //Metodos get  y set
 public int[][] getMatriz(){
   return tamMatriz;
@@ -101,9 +131,9 @@ public  void setMatriz(int[][] x){
 }
 public static void main(String[] args) {
   Matriz prueba= new Matriz(2);
-  prueba.rellenaMatriz();
-  prueba.productoEscalar(2);
-  prueba.imprimeMatriz();
+  String nuevo = "abcdefghijklmnñopqrstuvwxyz";
+  char x= 'x';
+  System.out.println(nuevo.lastIndexOf(x));
 }
 
 }
