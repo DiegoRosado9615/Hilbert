@@ -32,7 +32,6 @@ Metodo que recibe una matriz de letra  y la transforma en una matriz de enteros
 *@param MatrizLetra Matriz de letras
 *@return Matriz
 */
-
 public Matriz transformacionNumerica(MatrizLetra mensaje){
   String abecedario="abcdefghijklmnñopqrstuvwxyz";
   char [][] recipiente= mensaje.getMatrizLetra();
@@ -91,8 +90,7 @@ Metodo que nos permite saca el determinante de una matrizes
 */
 public static double determinante(double[][] matriz){
     double det=0;
-    if(matriz.length==2)
-    {
+    if(matriz.length==2){
         det=(matriz[0][0]*matriz[1][1])-(matriz[1][0]*matriz[0][1]);
         return det;
     }
@@ -130,7 +128,7 @@ public static double determinante(double[][] matriz){
         nuevo+=x[i];
       }
     return nuevo;
-  }
+  }//determinante
 
   /**
   Metodo auxiliar que muliplica 2 vectores, siempre y cuando los 2 vectores sea
@@ -165,10 +163,32 @@ public static double determinante(double[][] matriz){
         }
 
         return vectorResultante;
-  }
+  }//multiplicaMAtrices
 
+/**
+Método que dado un areglo de enteros devuelve su caracter corespondiente en un
+el abecedario español
+*/
+  public char[] convertidorChar(int [] x){
+    char[] vectorLetras = new char [x.length];
+    char letra=' ';
+    String abecedario="abcdefghijklmnñopqrstuvwxyz";
+    for (int i=0;i<x.length ;i++ ) {
+        letra=abecedario.charAt((x[i]%27));
+        vectorLetras[i]=letra;
+    }
+    return vectorLetras;
+  }//convertidorChar
+  /**
+  Metodo que me permite ver los vectores de char
+  */
+public static void vectorChar(char[] x){
+    for (int i=0;i<x.length ;i++ ) {
+      System.out.print("| " + x[i] + "|");
+    }
+    System.out.println("");
 
-
+}
 //Metodos get  y set
   public int[][] getMatriz(){
     return tamMatriz;
@@ -183,10 +203,9 @@ public static double determinante(double[][] matriz){
     Lector nuevo2=new Lector("Hola");
     String nuevo = "abcdefghijklmnñopqrstuvwxyz";
     char x= 'x';
-    //int[] vector1=[1,2,3];
-
-    //int[] esperanza =prueba.multiplicaMAtrices();
-    System.out.println(nuevo.lastIndexOf(x));
+    int [] vectorNumerico = {26,2,3};
+    //char [] vectorChar =['a','b','c']
+    vectorChar(prueba.convertidorChar(vectorNumerico));
   }//main
 
 }

@@ -61,7 +61,7 @@ import java.math.*;
       estaCompleta= (cadena%1 ==0);
     }
     return  mensaje;
-  }
+  }//completaTexto
   /**
   *Metodo que te permite separar el mensaje que se va a  separar en subcadenas,
   *recibe la cadena a dividir y el numero de el tamaño de los substring
@@ -149,7 +149,6 @@ import java.math.*;
     numerica.imprimeMatriz();
     System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxx");
     String[] prueba3=  pruebas.subArreglos("fortaleza",3);
-
     int[] vector1=new int[3];
     vector1[0]=2;
     vector1[1]=15;
