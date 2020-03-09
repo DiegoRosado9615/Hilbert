@@ -84,13 +84,12 @@ public void productoEscalar(int x){
     }
   }
 
-}
+}//productoEscalar
 
 /**
 Metodo que nos permite saca el determinante de una matrizes
-
-public static double determinante(double[][] matriz)
-{
+*/
+public static double determinante(double[][] matriz){
     double det=0;
     if(matriz.length==2)
     {
@@ -119,21 +118,75 @@ public static double determinante(double[][] matriz)
         suma-=matriz[i][0] * determinante(nm);
     }
     return  det;
+  }//determinante
+  /**
+  Metodo auxiliar que suma los valores de un vector automaticamente
+  *@param int[] x
+  *@return int
+  */
+  private int sumaDevector(int [] x){
+    int nuevo=0;
+      for (int i=0;i<x.length ;i++) {
+        nuevo+=x[i];
+      }
+    return nuevo;
   }
-*/
-//Metodos get  y set
-public int[][] getMatriz(){
-  return tamMatriz;
-}
 
-public  void setMatriz(int[][] x){
-    tamMatriz=x;
-}
-public static void main(String[] args) {
-  Matriz prueba= new Matriz(2);
-  String nuevo = "abcdefghijklmnñopqrstuvwxyz";
-  char x= 'x';
-  System.out.println(nuevo.lastIndexOf(x));
-}
+  /**
+  Metodo auxiliar que muliplica 2 vectores, siempre y cuando los 2 vectores sea
+  del mismo tamaño
+  */
+
+  private int[] multVectores(int [] vector1, int vector2[]){
+    int[] vectorFinal=new int[vector1.length];
+      for (int i=0;i<vector1.length ;i++) {
+        vectorFinal[i]=vector1[i]*vector2[i];
+      }
+      return vectorFinal;
+  }
+
+  /**
+  Metodo que devuelve un arreglo de operaciones , recibe una matriz, y el vector
+  por el que se va a multiplicar
+
+  */
+  public int[] multiplicaMAtrices(int[] vector, Matriz matriz){
+        int tamVector=vector.length;
+        int [] vectorResultante= new int [tamVector] ;
+        int[][] matrizNumerica= matriz.getMatriz();
+        int numeroMultiplicar=0;
+        int [] vectorAuxiliar= new int[tamVector];
+        for (int i=0;i<matrizNumerica.length;i++ ) {
+          for (int j=0;j<matrizNumerica[i].length ;j++ ) {
+              numeroMultiplicar=matrizNumerica[i][j];
+              vectorAuxiliar[j]=numeroMultiplicar;
+          }
+          vectorResultante[i]=sumaDevector(multVectores(vector,vectorAuxiliar));
+        }
+
+        return vectorResultante;
+  }
+
+
+
+//Metodos get  y set
+  public int[][] getMatriz(){
+    return tamMatriz;
+  }
+
+  public  void setMatriz(int[][] x){
+      tamMatriz=x;
+  }
+  //Metodo Main
+  public static void main(String[] args) {
+    Matriz prueba= new Matriz(2);
+    Lector nuevo2=new Lector("Hola");
+    String nuevo = "abcdefghijklmnñopqrstuvwxyz";
+    char x= 'x';
+    //int[] vector1=[1,2,3];
+
+    //int[] esperanza =prueba.multiplicaMAtrices();
+    System.out.println(nuevo.lastIndexOf(x));
+  }//main
 
 }
