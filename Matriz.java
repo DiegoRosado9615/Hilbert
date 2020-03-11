@@ -67,23 +67,51 @@ public void imprimeMatriz(){
 }//imprimeMatriz
 
 /**
+Metodo Auxiliar que sirve para cncctenar 2 arreglos numericos
+para poder devolver un areglo de numeros
+**/
+public int[] juntaAreglos(int[] x1 , int [] x2){
+    int longitudArr1=x1.length;
+    int longitudArr2=x2.length;
+    int contador=0;
+    int[] arregloFinal=new  int[longitudArr1+longitudArr2];
+    for (int i=0;i<longitudArr1 ;i++ ) {
+        arregloFinal[i]=x1[i];
+    }
+    for (int i=longitudArr1; i< (longitudArr2+longitudArr1) ;i++ ) {
+        arregloFinal[i]=x2[contador];
+        contador++;
+    }
+    return arregloFinal;
+}
+/**
 Metodo con el que se hace el producto escalar recibe el escalar por el cual
 se va multiplicar
 @param Entero y
 @return Matriz
 */
 
-public void productoEscalar(int x){
-  int [][] matriz=this.getMatriz();
+
+public int[] productoEscalar(int x,int tam, Matriz codificacion){
+  int [] matriz1=codificacion.getMatriz()[0];
+  int [] matriz2=codificacion.getMatriz()[1];
   int producto=0;
-  for (int i=0;i<matriz.length ;i++ ) {
-    for (int j=0;j<matriz[i].length ;j++) {
-      producto=matriz[i][j]*x;
-      matriz[i][j]=producto;
-    }
+  int [] vectorNumerico=new int[tam];
+  int [] vectorFaltante  = new int [tam];
+  int[] vectorFinal=new int[1];
+  for (int i=0;i<matriz1.length ;i++ ) {
+
+    vectorNumerico[i]=matriz1[i]*x;
+  }
+  for (int i=0;i<matriz2.length ;i++ ) {
+    vectorFaltante[i]=matriz2[i]*x;
   }
 
+  vectorFinal=juntaAreglos(vectorNumerico,vectorFaltante);
+  vectorInt(vectorFinal);
+  return vectorFinal;
 }//productoEscalar
+
 
 /**
 Metodo que nos permite saca el determinante de una matrizes
@@ -137,6 +165,7 @@ public static double determinante(double[][] matriz){
 
   private int[] multVectores(int [] vector1, int vector2[]){
     int[] vectorFinal=new int[vector1.length];
+//    int[] vectorAuxiliar=new
       for (int i=0;i<vector1.length ;i++) {
         vectorFinal[i]=vector1[i]*vector2[i];
       }
@@ -152,16 +181,20 @@ public static double determinante(double[][] matriz){
         int tamVector=vector.length;
         int [] vectorResultante= new int [tamVector] ;
         int[][] matrizNumerica= matriz.getMatriz();
+        int tamMatriz=matrizNumerica.length;
         int numeroMultiplicar=0;
         int [] vectorAuxiliar= new int[tamVector];
-        for (int i=0;i<matrizNumerica.length;i++ ) {
-          for (int j=0;j<matrizNumerica[i].length ;j++ ) {
-              numeroMultiplicar=matrizNumerica[i][j];
-              vectorAuxiliar[j]=numeroMultiplicar;
-          }
-          vectorResultante[i]=sumaDevector(multVectores(vector,vectorAuxiliar));
+        for (int i=0;i<tamVector ;i++ ) {
+        System.out.println("Este es vector [i] " + vector[i]) ;
+        System.out.println("esta es la matriz");
+        matriz.imprimeMatriz();
+        vectorAuxiliar= productoEscalar(vector[i],tamMatriz,matriz);
+        System.out.println("Este es valor auxiliar ");
+        vectorInt(vectorAuxiliar);
+        vectorResultante[i]=sumaDevector(vectorAuxiliar);
         }
-
+        System.out.println("Este es el vector vectorResultante ");
+        vectorInt(vectorResultante);
         return vectorResultante;
   }//multiplicaMAtrices
 
@@ -189,6 +222,17 @@ public static void vectorChar(char[] x){
     System.out.println("");
 
 }
+
+
+public void vectorInt(int [] x){
+  for (int i=0;i<x.length ;i++ ) {
+    System.out.print("| " + x[i] + "|");
+  }
+  System.out.println("");
+
+
+}
+
 //Metodos get  y set
   public int[][] getMatriz(){
     return tamMatriz;
@@ -209,3 +253,4 @@ public static void vectorChar(char[] x){
   }//main
 
 }
+//mexicas

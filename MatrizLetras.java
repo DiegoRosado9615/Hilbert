@@ -1,7 +1,5 @@
 import java.lang.String;
-
 class MatrizLetra {
-
   private char [][] matriz;
 
   public MatrizLetra(int n){
@@ -11,7 +9,7 @@ class MatrizLetra {
   /**
   *Método que nos permite insertar el mensaje en una matriz
   *@param Lector mensaje
-  *@return  Matriz
+  *@return  MatrizLetra
   */
   public MatrizLetra rellenaMatrizLetra(Lector nuevo){
    String mensaje= nuevo.getMensaje();
@@ -24,6 +22,7 @@ class MatrizLetra {
       for (int j=0;j<estructura.getMatrizLetra()[i].length ;j++ ) {
 
         posicion= mensaje.charAt(((i*mensajeTam) +j) );
+
         insercion[i][j]=posicion;
       }
    }

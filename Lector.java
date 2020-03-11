@@ -117,13 +117,13 @@ import java.math.*;
   /*Metodo que me permite imprimr una lista arreglos
     solo para ver los sub arreglos  de string :V
   */
-  private void imprimeArrString(String [] x){
+  public void imprimeArrString(String [] x){
     for (int i=0;i<x.length ;i++ ) {
       System.out.print("| " + x[i] + "|");
     }
     System.out.println("");
   }
-    private void imprimeArrInt(int [] x){
+    public void imprimeArrInt(int [] x){
       for (int i=0;i<x.length ;i++ ) {
         System.out.print("| " + x[i] + "|");
       }
