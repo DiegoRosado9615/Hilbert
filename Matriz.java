@@ -158,6 +158,7 @@ public static double determinante(double[][] matriz){
     return nuevo;
   }//determinante
 
+
   /**
   Metodo auxiliar que muliplica 2 vectores, siempre y cuando los 2 vectores sea
   del mismo tamaño
@@ -165,36 +166,51 @@ public static double determinante(double[][] matriz){
 
   private int[] multVectores(int [] vector1, int vector2[]){
     int[] vectorFinal=new int[vector1.length];
-//    int[] vectorAuxiliar=new
       for (int i=0;i<vector1.length ;i++) {
         vectorFinal[i]=vector1[i]*vector2[i];
       }
       return vectorFinal;
   }
 
+
+  /*
+  metodo auxiliar que me permite con la multiplicar un vector
+  con un
+  */
+  private int convierteTuplasEnteros(int[]  codf, int[] clave){
+    int def=0;
+    int escalar=0;
+    int aux[] = new int [codf.length];
+    for (int i=0;i<clave.length-1 ;i++ ) {
+
+      aux=multVectores(codf,clave);
+
+
+      escalar=sumaDevector(aux);
+      def=escalar;
+    }
+    return def;
+  }
+
   /**
   Metodo que devuelve un arreglo de operaciones , recibe una matriz, y el vector
   por el que se va a multiplicar
-
   */
-  public int[] multiplicaMAtrices(int[] vector, Matriz matriz){
-        int tamVector=vector.length;
-        int [] vectorResultante= new int [tamVector] ;
-        int[][] matrizNumerica= matriz.getMatriz();
-        int tamMatriz=matrizNumerica.length;
-        int numeroMultiplicar=0;
-        int [] vectorAuxiliar= new int[tamVector];
-        for (int i=0;i<tamVector ;i++ ) {
-        System.out.println("Este es vector [i] " + vector[i]) ;
-        System.out.println("esta es la matriz");
-        matriz.imprimeMatriz();
-        vectorAuxiliar= productoEscalar(vector[i],tamMatriz,matriz);
-        System.out.println("Este es valor auxiliar ");
-        vectorInt(vectorAuxiliar);
-        vectorResultante[i]=sumaDevector(vectorAuxiliar);
+  public int[][] multiplicaMAtrices(int[][] vectores, Matriz matriz){
+      int [][]vectorResultante= new int [vectores.length][vectores.length];
+      int [] []clave=matriz.getMatriz();
+      int [] m= new int [clave.length];
+      int nuevo =0;
+      for (int i=0;i<vectores.length ;i++ ) {
+        for (int j=0;j<clave.length ;j++ ) {
+          nuevo= convierteTuplasEnteros(vectores[i],clave[j]);
+          m[j]=nuevo;
         }
-        System.out.println("Este es el vector vectorResultante ");
-        vectorInt(vectorResultante);
+
+        vectorResultante[i]=m;
+
+         m= new int [clave.length];
+      }
         return vectorResultante;
   }//multiplicaMAtrices
 
@@ -212,11 +228,24 @@ el abecedario español
     }
     return vectorLetras;
   }//convertidorChar
+
+
+  public void codificacionVarChar(int [] [] x) {
+    char mt [][]= new char[x.length][x.length];
+      for (int i=0;i<x.length ;i++ ) {
+        System.out.println("M  de " + i + " Codificada es  ");
+        mt[i]=convertidorChar(x[i]);
+        vectorChar(mt[i]);
+      }
+
+  }
   /**
   Metodo que me permite ver los vectores de char
   */
 public static void vectorChar(char[] x){
     for (int i=0;i<x.length ;i++ ) {
+
+
       System.out.print("| " + x[i] + "|");
     }
     System.out.println("");

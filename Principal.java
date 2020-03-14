@@ -23,20 +23,19 @@ class Principal  {
           String [] menSeparado=mensaje.subArreglos(men2,longitud);
           System.out.println("En forma de arreglo se ve a si");
           mensaje.imprimeArrString(menSeparado);
-          vectorNumerico=mensaje.vectorDenumero(menSeparado);
-          System.out.println("Vector numerico");
-          mensaje.imprimeArrInt(vectorNumerico);
-          vectorIncriptado=numeros.multiplicaMAtrices(vectorNumerico,numeros);
-          numeros.vectorInt(vectorIncriptado);
-          System.out.println("La matriz encriptada");
-          vectorChar = numeros.convertidorChar(vectorIncriptado);
-          numeros.vectorChar(vectorChar);
+          int [] [] formaNumero=mensaje.vectorDenumero(menSeparado);
+          int [] [] codift= numeros.multiplicaMAtrices(formaNumero,numeros);
+          System.out.println("Su mensaje codificado es ");
+          numeros.codificacionVarChar(codift);
+
         }else{
           Matriz pruebas=new Matriz(2);
-          int [] [] valorPruebas = {{1,2,3},{4,5,6}};
-          pruebas.setMatriz(valorPruebas);
-          //pruebas.vectorInt(pruebas.getMatriz()[1]);
-        pruebas.productoEscalar(2,3,pruebas);
+          int [][] porDos = {{5,15,18} ,{20,0,11} , {4,26,0}};
+          pruebas.setMatriz(porDos);
+          Lector verificacion=new Lector("Hola");
+          String [] ejemplo = {"con","sul"};
+          int[][] veamos=verificacion.vectorDenumero(ejemplo);
+          pruebas.multiplicaMAtrices(veamos,pruebas);
         }
 
 

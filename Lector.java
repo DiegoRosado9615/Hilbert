@@ -1,4 +1,5 @@
 import java.math.*;
+import java.util.ArrayList;
  class Lector {
   private String mensaje;
   public Lector(String x){
@@ -68,10 +69,10 @@ import java.math.*;
   *devuelve un areglo de String con todos  los substring
   */
   public String [] subArreglos(String mensaje, int tam){
+    String subMensaje="";
     int longmen= mensaje.length();
     int tamArreglo= Math.round(longmen/tam);
     double operacion=(double)longmen/tam;
-    String subMensaje="";
     String[] divicionArreglos=null;
     int contador=0;
     int tamIn=0;
@@ -94,25 +95,46 @@ import java.math.*;
   }//subArreglos
 
   /**
-  Metodo que recibe una cadena de String y la convierte en una cadena
+  Metodo que recibe una cadena y la convierte a un arreglo de  enteros
+  *@param String x
+  *@return int []
   */
-  public int[] vectorDenumero(String x[]){
-    String nuevo="abcdefghijklmnñopqrstuvwxyz";
-    String palabra="" ;
+  private int[] creadorNumeros(String x){
+    String abecedario="abcdefghijklmnñopqrstuvwxyz";
+    int [] codificacion= new int[x.length()];
     int guarda=0;
     char posicion=' ';
-    for (int i=0;i<x.length ;i++ ) {
-      palabra+=x[i];
+    for (int i=0;i<x.length() ;i++ ) {
+      posicion=x.charAt(i);
+
+      guarda=abecedario.lastIndexOf(posicion);
+
+      codificacion[i]=guarda;
     }
-    int [] vectorNumerico=new int [palabra.length()];
-    for (int i=0;i<palabra.length() ;i++) {
-      posicion=palabra.charAt(i);
-      guarda=nuevo.lastIndexOf(posicion);
-      vectorNumerico[i]=guarda;
-    }
-    //imprimeArrInt(vectorNumerico);
-    return vectorNumerico;
+
+
+    return codificacion;
   }
+  /**
+  Metodo que recibe una cadena de String y la convierte en una cadena
+  */
+  public int[][] vectorDenumero(String x[]){
+    int[][] mensCompleto=new int [x.length][x[0].length()];
+    int [] cachos= new int [x[0].length()];
+    for (int i=0;i<x.length ;i++ ){
+    cachos=creadorNumeros(x[i]);
+    mensCompleto[i] = cachos;
+    }
+
+    for (int i=0;i<mensCompleto.length;i++ ) {
+      System.out.println("m " + i);
+      imprimeArrInt(mensCompleto[i]);
+      System.out.println("");
+    }
+
+    return mensCompleto;
+  }
+
 
   /*Metodo que me permite imprimr una lista arreglos
     solo para ver los sub arreglos  de string :V
@@ -153,8 +175,8 @@ import java.math.*;
     vector1[0]=2;
     vector1[1]=15;
     vector1[2]=13;
-    int[] esperanza =numerica.multiplicaMAtrices(vector1,numerica);
-    pruebas.imprimeArrInt(esperanza);
+    //int[] esperanza =numerica.multiplicaMAtrices(vector1,numerica);
+    //pruebas.imprimeArrInt(esperanza);
   }
 
 }
