@@ -106,7 +106,6 @@ public class Decrypt {
     *   @param x la matriz a la que se le desae obtener su adjunta
     *   @return una matriz adjunta
     */
-
         public  int [][] matrizAdjunta(int [][] x){
         return transpuesta(cofactores(x));
     }
@@ -215,32 +214,23 @@ public class Decrypt {
         for (int i=0;i<x.length ;i++ ) {
             cad +="|"+ x[i]+ "|\n" ;
         } 
-
-
         return cad ;
 
     }
 
+    public String vectorChar(char [] x){
+        String cad ="";
+        for (int i=0;i<x.length ;i++ ) {
+            cad +="|"+ x[i]+ "|\n" ;
+        } 
+        return cad ;
 
+    }
     public static int[][] aEentero(Matriz mat){
         return mat.getMatriz();
     }
 
-    public static int[][] nxm(int[][] x){
-
-        int [][] mat = new int [x[0].length][x.length]; 
-            
-        for (int i=0;i<x[0].length ;i++ ) {
-            for (int j= 0;j<x.length ;j++ ) {
-                mat[i][j] = x[i][j];
-            }
-        }
-
-        return mat ;
-
-    }
-
-    public String imprimeNXM(int [][] x){
+    public String imprimeNxM(int [][] x){
         String cad = "";
         for (int i=0;i<x.length ;i++ ) {
             for (int j= 0;j<x[0].length ;j++ ) {
@@ -256,7 +246,7 @@ public class Decrypt {
 
     public String decrypt(){
         String cad = "";
-        cad += "LLave: \n\n";
+        cad += "\n\nLLave: \n\n";
         cad += this.imprimeMatriz(this.mat);
         cad += "\n\n";
         cad += "Determinante: " + this.determinante(this.mat);
@@ -270,13 +260,14 @@ public class Decrypt {
         cad += "\n\n";
         cad += "Matriz inversa mod 27\n\n";
         cad += this.imprimeMatriz(this.moduloMatriz(this.matrizInversa(mat)))+"\n\n";
-        cad += "Vectores encriptados\n";
-        cad += this.imprimeNXM(this.transpuestaNxM(this.vec))+"\n";
+        cad += "Vectores encriptados de forma transpuesta\n";
+        cad += this.imprimeNxM(this.transpuestaNxM(this.vec))+"\n";
         cad += "Vectores multiplicados por la matriz inversa \n";
         cad += this.regresaListaVectoresSinModulo()+"\n";
-        aplicaModuloVectores();
         cad += "Vectores resultantes a los que se les aplico modulo 27\n";
+        aplicaModuloVectores();
         cad += this.regresaListaVectoresConModulo()+"\n";
+        cad += this.listaVectoresAchar()+"\n";
 
     return cad;
 
@@ -300,11 +291,10 @@ public class Decrypt {
     public String regresaListaVectoresConModulo(){
         
         String cad = "";
-
-        for (int i=0;i<this.vectores.size();i++) {
+        for (int i=0;i<this.vectoresModulo.size();i++) {
         
             cad += this.vector(this.vectoresModulo.get(i))+"\n";
-        
+
         }
         return cad;
     }
@@ -355,24 +345,47 @@ public class Decrypt {
         
     }
 
+    public char[] convertidorChar(int [] x){
+        char[] vectorLetras = new char [x.length];
+        char letra=' ';
+        String abecedario="abcdefghijklmnñopqrstuvwxyz";
+    for (int i=0;i<x.length ;i++ ) {
+        letra=abecedario.charAt((x[i]%27));
+        vectorLetras[i]=letra;
+    }
+        return vectorLetras;
+    }
+
+    public String listaVectoresAchar(){
+        String cad ="";
+        for (int i=0;i<this.vectoresModulo.size() ;i++ ) {
+            
+            cad += this.vectorChar(this.convertidorChar(this.vectoresModulo.get(i))) +"\n";
+        }
+        return cad ;
+    }
+
 
     
     public  static void main(String[] args) {
         int mat [][] = {{5,15,18},{20,0,11},{4,26,0}};
+
         int vec1 [][] = {{10,21,20},{14,15,1}};
 
         Decrypt i = new Decrypt(mat,vec1);
         
         System.out.println(i.decrypt());
 
-        
 
     }
 
 }
 
-        /*
-           Pongan esto en Principal.java
-          Decrypt decrypt = new Decrypt(Decrypt.aEentero(numeros),formaNumero);
+/*
+          int [][] mat = Decrypt.aEentero(numeros);
+          int [][] vec = codift;
+
+          Decrypt decrypt = new Decrypt(mat,vec);
           System.out.println(decrypt.decrypt());
+
           */
