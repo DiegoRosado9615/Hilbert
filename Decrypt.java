@@ -1,26 +1,58 @@
 import java.math.*;
+import java.util.ArrayList;
 
 public class Decrypt {
     
-
-    public int[][] matrizInversa(int [][] x) {
-        int det = inversoMultiplicativo(determinante(x,x.length),27);
-        int [][] adj= matrizAdjunta(x);
-        return productoEscalarInversa(det,adj);
+    private int [][] mat ;
+    private int [][] vec ;  
+    private ArrayList<int []> vectores = new ArrayList<int []>();
+    private ArrayList<int []> vectoresModulo = new ArrayList<int []>();
+    public Decrypt (int [][] mat, int[][] vec){
+        this.mat = mat;
+        this.vec = vec;
     }
 
-    public int [][] productoEscalarInversa(int det, int [][] x){        
+    public int [][] getM() {
+        return this.mat;
+    }
+
+    /**
+    *    Método que regresa la matriz inversa de una matriz M
+    *    @param x La Matriz a la que se le desea obtener su inversa    
+    *    @return la matriz inversa de x
+    **/
+   
+    public int[][] matrizInversa(int [][] x) {
+        int det = inversoMultiplicativo(determinante(x),27);
+        int [][] adj= matrizAdjunta(x);
+        return productoEscalar(det,adj);
+    }
+    /**
+    *   Método que aplica el producto escalar a la matriz 
+    *   @param v el determiante de la matriz inversa
+    *   @param x la matriz a la que se le multiplicara entrada por entrada el valor v 
+    *   @return la matriz inversa multiplicada por el determinate (inverso multiplicativo)
+    *
+    */
+
+    public int [][] productoEscalar(int v, int [][] x){        
         int f [][] = new int[x.length][x.length];
         for (int i=0;i<x.length ;i++ ) {
             for (int j=0;j<x.length ;j++ ) {
-                f[i][j] = x[i][j]*det ; 
+                f[i][j] = v*x[i][j]; 
             }
         }
         return f;
-
     }
 
-    public  int[][] matrizCofactores(int[][] x){
+    /**
+    *   Método que obtiene los cofactores de una matriz X 
+    *   @param x la matriz a la que se le desea obtener sus cofactores
+    *   @return una matriz con los cofactores de X
+    *
+    */
+
+    public int[][] cofactores(int[][] x){
         int[][] res = new int[x.length][x.length];
         for(int i=0;i<x.length;i++) {
             for(int j=0;j<x.length;j++) {
@@ -37,14 +69,21 @@ public class Decrypt {
                         }
                     }
                 }
-                detValor=determinante(det,det.length);
-                res[i][j]=detValor * (int)Math.pow(-1, i+j+2);
+                detValor=determinante(det);
+                res[i][j]=detValor*(int)Math.pow(-1, i+j);
             }
         }
         return res;
     }
 
-    public int [][] matrizTranspuesta(int [][] x){
+    /**
+    *   Método que transforma una matriz M a su transpuesta   
+    *   @param x la matriz a la que se le desea sacar su transpuesta
+    *   @return M^T la matriz transpuesta de M.
+    *
+    */
+
+    public int [][] transpuesta(int [][] x){
         int mat[][] = new int[ x.length][x.length];
         for(int i=0; i<x.length; i++){
             for(int j=0; j<x.length; j++)
@@ -53,52 +92,238 @@ public class Decrypt {
         return mat;
     }
 
+
+    public int [][] transpuestaNxM(int [][] x){
+        int mat[][] = new int[x[0].length][x.length];
+        for(int i=0; i<x[0].length; i++){
+            for(int j=0; j<x.length; j++)
+                mat[i][j]=x[j][i];
+        }
+        return mat;
+    }
+    /**
+    *   Método que regresa una matriz adjunta
+    *   @param x la matriz a la que se le desae obtener su adjunta
+    *   @return una matriz adjunta
+    */
+
         public  int [][] matrizAdjunta(int [][] x){
-        return matrizTranspuesta(matrizCofactores(x));
+        return transpuesta(cofactores(x));
     }
 
-    public int determinante(int [][] mat, int n) { 
+    /**
+    *   Método que calcula el determinante de una matriz 
+    *   @param x la matriz a la que se le desea obtener su determianate
+    *   @return el determiante de la matriz 
+    */
 
-        if (n == 1) 
-            return mat[0][0]; 
+    public int determinante(int [][] x){
+        int det = 0;
+        if (x.length==2){
+            det = (x[0][0]*x[1][1]) - (x[0][1]*x[1][0]);
+        }else{
+            det = ((x[0][0])*(x[1][1])*(x[2][2])+(x[1][0])*(x[2][1])*(x[0][2])+(x[2][0])*(x[0][1])*(x[1][2]))-((x[2][0])*(x[1][1])*(x[0][2])+(x[1][0])*(x[0][1])*(x[2][2])+(x[0][0])*(x[2][1])*(x[1][2]));
+        }
+        return det;
+    }
 
-        int res = 0; 
-        int signo = 1; 
-        int cof[][] = new int[n][n]; 
 
-        for (int f = 0; f < n; f++) { 
-            cofactor(mat, cof, 0, f, n); 
-            res += signo * mat[0][f] * determinante(cof, n - 1); 
-            signo = -signo; 
-        } 
+    public void aplicaModuloVectores(){
+
+        for (int i=0;i<this.vectores.size();i++ ) {
+
+            int [] nwVec = this.vectores.get(i);
+            int [] nwVec2 = moduloVector(nwVec);
+            this.vectoresModulo.add(nwVec2);
+            
+        }
+
+    }
+
+
+    /**
+    *   Método que aplica modulo a un vector 
+    *   @param x un vector 
+    *   @return un vector al que s ele aplico modulo 27 
+    */
+
+
+    public int [] moduloVector(int [] x){
+        int mat[] = new int [x.length];
+        for (int i=0; i<x.length ;i++ ) {
+                mat[i] = x[i] % 27; 
+        }
+        return mat;
+    }
     
-        return res; 
+    /**
+    *   Método que aplica modulo a una matriz
+    *   @param x la amtriz a la que se le aplicara el modulo 27
+    *   @return una matriz aplicada con modulo 27
+    */
+
+    public int [][] moduloMatriz(int [][] x){
+        int mat[][] = new int [x.length][x.length];
+        for (int i=0; i<x.length ;i++ ) {
+            for (int j=0;j<x.length ;j++ ) {
+                mat[i][j] = (x[i][j] < 0) ? (27 - (Math.abs(x[i][j]) % 27))%27 : (x[i][j] % 27);
+            }
+        }
+        return mat;
+    }
+
+    /**
+    *   Método que regresa el inverso multiplicativo.
+    *   @param a el numero al que se le desea obtener su inverso multiplicativo.
+    *   @param n el modulo.
+    *   @return el inverso multiplicativo de a mod n
+    */
+
+    public int inversoMultiplicativo(int a, int n) { 
+        a %= n; 
+        for (int i = 1; i < n; i++) 
+           if ((a * i) % n == 1) 
+              return i; 
+        return 1; 
     } 
 
-    public void cofactor(int [][] mat, int [][] temp, int p, int q, int n) { 
-        int i = 0, j = 0; 
-        for (int reng = 0; reng < n; reng++) { 
-            for (int col = 0; col < n; col++) { 
-                if (reng != p && col != q) { 
-                    temp[i][j++] = mat[reng][col]; 
-                    if (j == n - 1) { 
-                        j = 0; 
-                        i++; 
-                    } 
-                } 
-            } 
-        } 
-    } 
+    /**
+    *   Método que imprime una matriz
+    *   @param x la latriz que se desea imprimir
+    *
+    */
 
-    
-    public int [] multiplicaRenglonXColumnaINT(int [][] x, int [] vec){
+    public String imprimeMatriz(int [][] x){
+    String cad ="";
+        for (int i=0;i<x.length;i++) {
+            for(int j=0; j<x.length;j++){
+                cad += "| " + x[i][j] + "";
+            }
+            cad += "|\n";
+            }
+            return cad;
+    }
+
+    /**
+    *   Método que imprime un vector
+    *   @param x el vector que se desea imprimir
+    *   
+    */
+
+    public String vector(int [] x){
+        String cad ="";
+        for (int i=0;i<x.length ;i++ ) {
+            cad +="|"+ x[i]+ "|\n" ;
+        } 
+
+
+        return cad ;
+
+    }
+
+
+    public static int[][] aEentero(Matriz mat){
+        return mat.getMatriz();
+    }
+
+    public static int[][] nxm(int[][] x){
+
+        int [][] mat = new int [x[0].length][x.length]; 
+            
+        for (int i=0;i<x[0].length ;i++ ) {
+            for (int j= 0;j<x.length ;j++ ) {
+                mat[i][j] = x[i][j];
+            }
+        }
+
+        return mat ;
+
+    }
+
+    public String imprimeNXM(int [][] x){
+        String cad = "";
+        for (int i=0;i<x.length ;i++ ) {
+            for (int j= 0;j<x[0].length ;j++ ) {
+                cad += "|"+x[i][j]+"";
+            }
+            cad += "|\n";
+        }
+                
+        return cad;
+
+    }
+
+
+    public String decrypt(){
+        String cad = "";
+        cad += "LLave: \n\n";
+        cad += this.imprimeMatriz(this.mat);
+        cad += "\n\n";
+        cad += "Determinante: " + this.determinante(this.mat);
+        cad += "\n\n";
+        cad += "Inverso multiplicativo de "+ this.determinante(this.mat) +" es: " +this.inversoMultiplicativo(determinante(this.mat),27)+"\n\n";
+        cad += "Matriz Adjunta: \n";
+        cad += this.imprimeMatriz(this.matrizAdjunta(this.mat))+"\n\n";
+        cad += "Adjunta multiplicada por el inverso multiplicativo o sea:  \n";
+        cad += "\nMatriz inversa: \n";
+        cad += this.imprimeMatriz(this.matrizInversa(this.mat));
+        cad += "\n\n";
+        cad += "Matriz inversa mod 27\n\n";
+        cad += this.imprimeMatriz(this.moduloMatriz(this.matrizInversa(mat)))+"\n\n";
+        cad += "Vectores encriptados\n";
+        cad += this.imprimeNXM(this.transpuestaNxM(this.vec))+"\n";
+        cad += "Vectores multiplicados por la matriz inversa \n";
+        cad += this.regresaListaVectoresSinModulo()+"\n";
+        aplicaModuloVectores();
+        cad += "Vectores resultantes a los que se les aplico modulo 27\n";
+        cad += this.regresaListaVectoresConModulo()+"\n";
+
+    return cad;
+
+    }
+
+    public String regresaListaVectoresSinModulo(){
+        
+        String cad = "";
+        this.multiplicaMxVecI(this.moduloMatriz(this.matrizInversa(this.mat)),this.vec);
+
+        for (int i=0;i<this.vectores.size();i++) {
+        
+            cad += this.vector(this.vectores.get(i))+"\n";
+        
+        }
+        return cad;
+
+    }
+
+
+    public String regresaListaVectoresConModulo(){
+        
+        String cad = "";
+
+        for (int i=0;i<this.vectores.size();i++) {
+        
+            cad += this.vector(this.vectoresModulo.get(i))+"\n";
+        
+        }
+        return cad;
+    }
+
+        /**
+    *   Método que multiplica cada renglon de una matriz, por cada una de las entradas de un vector
+    *   @param x la matriz 
+    *   @param vec el vector
+    *   @return un vector que resulta de la multiplicacion de x y vec   
+    *
+    */
+
+    public int [] multiplicaRenglonXColumna(int [][] x, int [] vec){
        int m [] = new int [vec.length] ;
 
        if (x.length==2){
             m[0] = x[0][0]*vec[0] + x[0][1]*vec[1];
             m[1] = x[1][0]*vec[0] + x[1][1]*vec[1];
-       } else{
-
+       } else if (x.length==3) {
         m[0] = (x[0][0]*vec[0]) + (x[0][1]*vec[1]) + (x[0][2] * vec[2]);
         m[1] = (x[1][0]*vec[0]) + (x[1][1]*vec[1]) + (x[1][2] * vec[2]);
         m[2] = (x[2][0]*vec[0]) + (x[2][1]*vec[1]) + (x[2][2] * vec[2]);
@@ -109,78 +334,47 @@ public class Decrypt {
 
     }
 
-    public void imprimeMatriz(int [][] x){
-  
-        for (int i=0;i<x.length ;i++) {
-            for(int j=0; j<x.length;j++){
-                System.out.print("| " + x[i][j] + "");
-            }
-            System.out.println("|");
-            }
+    public void multiplicaMxVecI(int [][] x, int [][] vec) {
+        
+        for (int j=0;j<vec.length ;j++ ) { 
+            int [] m = this.multiplicaRenglonXColumna(this.moduloMatriz(this.matrizInversa(mat)),this.creaArregloNx1(this.vec,j));
+            this.vectores.add(m);
+        }
+
     }
 
+    public int [] creaArregloNx1(int [][] x, int j){
 
-    public void imprimeMatrizXColumnaINT(int [] x){
+        int [] vec = new int[x[0].length];
+        x = this.transpuestaNxM(x);
         for (int i=0;i<x.length ;i++ ) {
-            System.out.println(" | "+ x[i]+ " | " );
+            vec[i]=x[i][j];
         }
-
+        
+    return vec;        
+        
     }
 
-    public int [] moduloVector(int [] x){
-        int mat[] = new int [x.length];
-        for (int i=0; i<x.length ;i++ ) {
-                mat[i] = (x[i] < 0) ? (27 - (Math.abs(x[i]) % 27) ) % 27 : (x[i] % 27);
-            
-        }
-        return mat;
-    }
 
-    public int [][] moduloMatriz(int [][] x ){
-        int mat[][] = new int [x.length][x.length];
-        for (int i=0; i<x.length ;i++ ) {
-            for (int j=0;j<x.length ;j++ ) {
-                mat[i][j] = (x[i][j] < 0) ? (27 - (Math.abs(x[i][j]) % 27) ) % 27 : (x[i][j] % 27);
-            }
-        }
-        return mat;
-    }
-
-    public int inversoMultiplicativo(int a, int n) { 
-        a = a % n; 
-        for (int x = 1; x < n; x++) 
-           if ((a * x) % n == 1) 
-              return x; 
-        return 1; 
-    } 
     
     public  static void main(String[] args) {
-        Decrypt i = new Decrypt();
         int mat [][] = {{5,15,18},{20,0,11},{4,26,0}};
-        int vec1 [] = {10,21,20};
-        int vec2 [] = {14,15,1};
-Fraccion f = new Fraccion(1,i.determinante(mat,mat.length));
-        System.out.println("LLave");
-        i.imprimeMatriz(mat);
-System.out.println();
-        System.out.println("Determiante");
-        System.out.println(i.determinante(mat,mat.length));
-System.out.println("Inverso multiplicativo del determinante ");
-System.out.println(i.inversoMultiplicativo(i.determinante(mat,mat.length),27));
-System.out.println();
-        System.out.println("Matriz adjunta ");
-        i.imprimeMatriz(i.matrizAdjunta(mat));
-System.out.println();
-        System.out.println("inversa multiplicada por el inverso multiplicativo: "+ i.inversoMultiplicativo(i.determinante(mat,mat.length),27));
-        i.imprimeMatriz(i.matrizInversa(mat));
-System.out.println();
-System.out.println("matriz con modulo 27");
-i.imprimeMatriz(i.moduloMatriz(i.matrizInversa(mat)));
+        int vec1 [][] = {{10,21,20},{14,15,1}};
 
-i.imprimeMatrizXColumnaINT(i.multiplicaRenglonXColumnaINT(i.moduloMatriz(i.matrizInversa(mat)),vec1));
-i.imprimeMatrizXColumnaINT(i.moduloVector(i.multiplicaRenglonXColumnaINT(i.moduloMatriz(i.matrizInversa(mat)),vec1)));
+        Decrypt i = new Decrypt(mat,vec1);
+        
+        System.out.println(i.decrypt());
 
+        
 
     }
 
 }
+
+        /*
+          Decrypt decrypt = new Decrypt(Decrypt.aEentero(numeros));
+
+          System.out.println("llave");
+          decrypt.imprimeMatriz(decrypt.getM());
+          System.out.println();
+          */
