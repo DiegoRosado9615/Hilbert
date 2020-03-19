@@ -145,7 +145,7 @@ import java.util.ArrayList;
     }
     System.out.println("");
   }
-    public void imprimeArrInt(int [] x){
+    public static void imprimeArrInt(int [] x){
       for (int i=0;i<x.length ;i++ ) {
         System.out.print("| " + x[i] + "|");
       }
@@ -160,21 +160,75 @@ import java.util.ArrayList;
     mensaje=x;
   }
 
+  public static int[] posiciones(String x, String[] lista,int incidencias ){
+    int MAX =20;
+    int contador=0;
+    int [] posicion= new int [incidencias];
+    for (int i=0;i<lista.length ;i++ ) {
+      System.out.println(lista[i]);
+      System.out.println(x.equals(lista[i]));
+       if (x.equalsIgnoreCase(lista[i]) ) {
+         System.out.println("Entre");
+         posicion[contador]=i;
+         contador++;
+       }
+    }
+    return  posicion;
+  }
+
   public static void main(String[] args) {
-    Lector pruebas= new Lector("fortaleza");
-    MatrizLetra prueba2= new MatrizLetra(4);
-    Matriz numerica= new Matriz(4);
-    prueba2= prueba2.rellenaMatrizLetra(pruebas);
-    prueba2.imprimeMatrizLetra();
-    System.out.println("<<<<<<<<<<<<<<<<<<<<<<");
-    numerica=numerica.transformacionNumerica(prueba2);
-    numerica.imprimeMatriz();
-    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxx");
-    String[] prueba3=  pruebas.subArreglos("fortaleza",3);
-    int[] vector1=new int[3];
-    vector1[0]=2;
-    vector1[1]=15;
-    vector1[2]=13;
+    Lector pruebas= new Lector("TSIICHGDEAMUEGBPXBKCSDWLJTEEUWBAERAFSOMU"+
+    "MWJMZIPOKRESWTILAWZWOEFLEOMROJMPDCPOKPII" +
+    "QVEJMXRZCQMQLBTGIVAIIXTIEQVLLGLIGIBAERAN"+
+    "MOMCLYAIPLGJSUQBACBAZIPOWTAQVOMBQMQRXKKO"+
+    "WZXRFELSSYQQGRJQDBVNOHQVPWPADZSQWSUWEYMW"+
+    "GSAMHXJCGADSPQPEKBIOIFOKBEOIOUWEXOINESYS"+
+    "PCPFJMKJMPTGPIIXQEEMXFBWLSPSIWUAEAVLAQSD"+
+    "AWXUQRGESPKCLDMRBTCMGDIPMNSAXIKKKOEMWCQP"+
+    "OWXQXAVEENPLZQSGQPJIUIFESMWTTSNPBTQSSYSO"+
+    "WUOKNYPKCNDAWXUQRGESPAQNDAWNCGATMRAWPAFE"+
+    "SKTQSIGIZIOBAMRIWUQMQSIDKDSZWRKQRSLSKTGS"+
+    "VUGBYWEFGRZIJAFPIBVEOFFVXZPOWZGRMPTJMRYC"+
+    "UCSZIKMUTWRVXOOEFFSNCGHWYSPTGIVATLLGMGEZ"+
+    "BZNOKMQLZQSGEFRAEAFQMKUGDAMXXUGNLQPBAKGM"+
+    "QPLACMGDSPWUSGZPLASUWMFXVFOFMRLBTOWEGOQV"+
+    "OJQWBUKLAAEYZGUYAQBHSUWZEZQQEFYIOQFAZMEN"+
+    "CKUFRVXOOEFFSJCAPWCYBVQDWEYIQDRGFMQCNAVA"+
+    "GXVGKZUWQWTISKPBGGNVMHBCPHWDSBUCYSQPEMTR"+
+    "WDSAMNAZMGFMPDSEIXKGRUAEIVWENAEJWALWPMGW"+
+    "UEFAVVIGSLMXBZOIFMHLMNHAQVOWRAJMQXZEAJMP"+
+    "XADEKFMXAJAYASQZQPSDEJITCSDEIWUIFPMLAGLS"+
+    "YSZWPTWEXLCUAWXQFAOOUMRBSTOEBMLMNHAQVOWG"+
+    "NWEXBNTAYYIKBQPGPIJWUVWDURMGMAXMLVQLWMKO"+
+    "IFATMPXLGSASYXTFAVXERTVIEMSYZCDWXMQMTALG"+
+    "VXYWEUUXXZGEKQPIQDRGFMQCNAVAIITCBWDMKBQD"+
+    "WXEPWNEVMHVAKNVGHXMNEKOVFBQRWESZBCVAATXH"+
+    "JESCYFCPFJMKJMPTGHMBRQOSPSIMEEFFIZZKODXS"+
+    "LUGZLUDLOGNWDEIWDRWDSLTKCWZGFIFOWXQBFKCS"+
+    "ZSPMOASBEOMEEUAQLCPSWDURMUEWZGFMTRSKWBXT"+
+    "EKQVSIOAKOEOIGLJAWQZQYEMWZITADMWLVTRAEEX"+
+    "YWIGOXXDKOHMDEIEEMZEAMUCJUTZQQNVQRLAQTJA"+
+    "WIWUMWJMZIPOKYYVIEEJFEAIROJAXOWNAVARLXWE"+
+    "VQRCINTSDQFAGSUDMQWTEKYIUQEAFAWAMCLYQFOI"+
+    "HANAVFBQSMZSAMGLDAWBAJUYAEIJGRLAVFVEOFYI"+
+    "GQCQMQIKAWSDUFOWUHSZSQIFOIGIIIUIENSIWIIS"+
+    "PIXKWEJPSXTNEFSYXRGNGETBZOILQEPWEISDQBRQ"+
+    "RWXGLVEEHFSAMNCMMPPMGSLMIPBWDAMRAWGLKUKR"+
+    "QGNLQIPKTILAVCCGBSEMZWRAJMQFKWAFPSSQVEGD"+
+    "MXLGGSXSFAALGCYBDKEFEYPTKBJAWBAWNEMRBRQD"+
+    "WXEPQFESEGIITAKKIKUKLWZKRILEWXIPXCNGXIIC"+
+    "NTAYSAMNQMQIPKTITUVBMUGMUPIMTMGSVXJKNKWC"+
+    "BVUUKOPXAGSVQWMMTTGYMFVVEJQWMWTEDMRXTKSA"+
+    "ECPCNITDSQMQRAMHBTCMWPMAIUEZMGLVXEJFMAWG"+
+    "NEUFXAGEFXSPKWRKAWNCGIEBEOBKDGMRQMUDWFIO"+
+    "UKNSDIPBCCZMVIINEKBVBOWNLAGRINEKESKAWSSG"+
+    "XLZGSXMZLZKTGEQBFKCSZSP"
+    );
+    String nuevo= pruebas.getMensaje();
+    String casillas[]= pruebas.subArreglos(nuevo,7);
+    pruebas.imprimeArrString(casillas);
+    //int busca[]= posiciones("QDRG",casillas,5);
+    //imprimeArrInt(busca);
     //int[] esperanza =numerica.multiplicaMAtrices(vector1,numerica);
     //pruebas.imprimeArrInt(esperanza);
   }
