@@ -372,9 +372,7 @@ public class Decrypt {
 }
 
         /*
-          Decrypt decrypt = new Decrypt(Decrypt.aEentero(numeros));
-
-          System.out.println("llave");
-          decrypt.imprimeMatriz(decrypt.getM());
-          System.out.println();
+           Pongan esto en Principal.java
+          Decrypt decrypt = new Decrypt(Decrypt.aEentero(numeros),formaNumero);
+          System.out.println(decrypt.decrypt());
           */
