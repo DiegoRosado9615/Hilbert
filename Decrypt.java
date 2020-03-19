@@ -12,10 +12,6 @@ public class Decrypt {
         this.vec = vec;
     }
 
-    public int [][] getM() {
-        return this.mat;
-    }
-
     /**
     *    Método que regresa la matriz inversa de una matriz M
     *    @param x La Matriz a la que se le desea obtener su inversa    
@@ -125,8 +121,10 @@ public class Decrypt {
         }
         return det;
     }
-
-
+    /**
+    *   Método que aplica el modulo a un vector y lo agrega a una lista
+    *
+    */
     public void aplicaModuloVectores(){
 
         for (int i=0;i<this.vectores.size();i++ ) {
@@ -217,7 +215,11 @@ public class Decrypt {
         return cad ;
 
     }
-
+    /**
+    *   Método que imprime un vector de Caracteres
+    *   @param x un vector
+    *   @return una cadena con el vector de Caracteres.
+    */
     public String vectorChar(char [] x){
         String cad ="";
         for (int i=0;i<x.length ;i++ ) {
@@ -226,10 +228,22 @@ public class Decrypt {
         return cad ;
 
     }
+
+    /**
+    *   Método que "cambia" un objeto Matriz a un arreglo bidimensional
+    *   @param mat La instancia de la clase Matriz
+    *   @return un arreglo bidimensional
+    */
     public static int[][] aEentero(Matriz mat){
         return mat.getMatriz();
     }
 
+    /**
+    *   Método que imprime una matriz de N x M ayuda a vizualizar una matriz de N x M
+    *   @param x una matriz de N x M
+    *   @return una cadena con el arreglo bidimensional
+    *
+    */
     public String imprimeNxM(int [][] x){
         String cad = "";
         for (int i=0;i<x.length ;i++ ) {
@@ -243,12 +257,18 @@ public class Decrypt {
 
     }
 
+    /**
+    *   Método que "realiza todas las operaciones para obtener el desencriptado"
+    *   @return una cadena con todas las operaciones para obtener la desencriptación.
+    *
+    */
 
     public String decrypt(){
         String cad = "";
         cad += "\n\nLLave: \n\n";
         cad += this.imprimeMatriz(this.mat);
         cad += "\n\n";
+        mensajeDetermianteEs0();
         cad += "Determinante: " + this.determinante(this.mat);
         cad += "\n\n";
         cad += "Inverso multiplicativo de "+ this.determinante(this.mat) +" es: " +this.inversoMultiplicativo(determinante(this.mat),27)+"\n\n";
@@ -267,12 +287,18 @@ public class Decrypt {
         cad += "Vectores resultantes a los que se les aplico modulo 27\n";
         aplicaModuloVectores();
         cad += this.regresaListaVectoresConModulo()+"\n";
+        cad += "Mensaje claro:\n\n";
         cad += this.listaVectoresAchar()+"\n";
 
     return cad;
 
     }
 
+    /**
+    *   Método que regresa una lista de vectores, en especial a los que no se les a aplicado el modulo
+    *   @return una cadena con los vectores dentro de una lista que contiene vecotres sin modulo aplicado
+    *
+    */
     public String regresaListaVectoresSinModulo(){
         
         String cad = "";
@@ -287,6 +313,11 @@ public class Decrypt {
 
     }
 
+    /**
+    *   Método que regresa una lista de vectores, en especial a los que se les a aplicado el modulo
+    *   @return una cadena con los vectores dentro de una lista que contiene vecotres con modulo aplicado   
+    *
+    */
 
     public String regresaListaVectoresConModulo(){
         
@@ -324,6 +355,13 @@ public class Decrypt {
 
     }
 
+    /**
+    *   Método que multiplica una matriz por una matriz, solo que se aplica el poducto de matriz por renglon
+    *   @param x la matriz principal(la inversa)
+    *   @param vec una matriz de vectores
+    *
+    */
+
     public void multiplicaMxVecI(int [][] x, int [][] vec) {
         
         for (int j=0;j<vec.length ;j++ ) { 
@@ -332,6 +370,15 @@ public class Decrypt {
         }
 
     }
+
+    /**
+    *   Método que crea un arreglo de N x 1 a partir de una matriz bidimensinal. 
+    *   Crea columnas a partir de hacerla transpuesta 
+    *   @param x una matriz
+    *   @param j un indice de columna
+    *   @return un vector (la columna j)
+    *
+    */
 
     public int [] creaArregloNx1(int [][] x, int j){
 
@@ -345,6 +392,12 @@ public class Decrypt {
         
     }
 
+    /**
+    *   Método que convierte un vector de enteros en un vector de Caracteres.
+    *   @param x un vector de enteros
+    *   @return un vector de caracteres.
+    */
+
     public char[] convertidorChar(int [] x){
         char[] vectorLetras = new char [x.length];
         char letra=' ';
@@ -356,6 +409,12 @@ public class Decrypt {
         return vectorLetras;
     }
 
+    /**
+    *   Método que imprime una lista de vectores de caracteres
+    *   @return una cadena con una lista de vectores de caracteres.
+    *
+    */
+
     public String listaVectoresAchar(){
         String cad ="";
         for (int i=0;i<this.vectoresModulo.size() ;i++ ) {
@@ -366,17 +425,27 @@ public class Decrypt {
     }
 
 
+    /**
+    *   Método que manda un mensaje si detecta que el determiante es igual a 0
+    */
+    public void mensajeDetermianteEs0(){
+        if (this.determinante(this.mat)==0){
+            System.out.println("El determianate es 0");
+            System.exit(0);
+        }
+    }
+
+
     
     public  static void main(String[] args) {
-        int mat [][] = {{5,15,18},{20,0,11},{4,26,0}};
+        int mat [][] = {{5,15,0},{20,0,0},{4,26,0}};
 
         int vec1 [][] = {{10,21,20},{14,15,1}};
 
         Decrypt i = new Decrypt(mat,vec1);
-        
         System.out.println(i.decrypt());
 
-
+        System.out.println( i.inversoMultiplicativo(0,27));
     }
 
 }
